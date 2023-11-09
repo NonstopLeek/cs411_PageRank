@@ -1,0 +1,1 @@
+gcc pagerank.c -o pagerank 
