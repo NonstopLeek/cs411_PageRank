@@ -19,7 +19,7 @@ typedef struct graph {
 Node *createNode(int newVertex)
 {
     // printf("Creating Node\n");
-    Node *newNode = malloc(sizeof(Node));
+    Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->vertex = newVertex;
     newNode->next = NULL;
     return newNode;
@@ -27,7 +27,7 @@ Node *createNode(int newVertex)
 
 Graph *createGraph(int newVerticesCount)
 {
-    Graph *newGraph = malloc(sizeof(Graph));
+    Graph *newGraph = (Graph *)malloc(sizeof(Graph));
     newGraph->numVertices = newVerticesCount;
     newGraph->adjacencyList = (Node **)malloc(newVerticesCount * sizeof(Node *));
 
