@@ -29,7 +29,7 @@ Graph *createGraph(int newVerticesCount)
 {
     Graph *newGraph = malloc(sizeof(Graph));
     newGraph->numVertices = newVerticesCount;
-    newGraph->adjacencyList = (Node *)malloc(newVerticesCount * sizeof(Node *));
+    newGraph->adjacencyList = (Node **)malloc(newVerticesCount * sizeof(Node *));
 
     for (int i = 0; i < newVerticesCount; i++)
     {
