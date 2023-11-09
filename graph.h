@@ -46,10 +46,13 @@ void createEdge(Graph *graph, int src, int dest)
     newNode->next = graph->adjacencyList[src];
     graph->adjacencyList[src] = newNode;
 
+    // NOTE: the graph is directed, so we should not do this part!
+    //       (just because website A has a hyperlink to website B
+    //        doesn't mean B also links to A)
     // Create edge from destination node to source node
-    newNode = createNode(src);
-    newNode->next = graph->adjacencyList[dest];
-    graph->adjacencyList[dest] = newNode;
+    //newNode = createNode(src);
+    //newNode->next = graph->adjacencyList[dest];
+    //graph->adjacencyList[dest] = newNode;
 }
 
 void printGraph(Graph *graph)
@@ -60,13 +63,15 @@ void printGraph(Graph *graph)
         // printf("Vertex: %d\n", i);
         Node *temp = graph->adjacencyList[i];
         // printf("Node temp: graph->adjacencyList[i]=%d\n", graph->adjacencyList[i]);
-        printf("Vertex: %d\n", i);
+        printf("\nVertex: %d\n[", i);
         while(temp)
         {
-            printf("%d -> ", temp->vertex);
+            printf("%d", temp->vertex);
             temp = temp->next;
+            if (temp)
+                printf(", ");
         }
-        printf("null");
+        printf("]");
         printf("\n");
     }
 }
