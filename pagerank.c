@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "surfing.h"
 
 void handleInputFile(Graph *graph)
 {
