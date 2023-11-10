@@ -45,14 +45,6 @@ void createEdge(Graph *graph, int src, int dest)
     struct node *newNode = createNode(dest);
     newNode->next = graph->adjacencyList[src];
     graph->adjacencyList[src] = newNode;
-
-    // NOTE: the graph is directed, so we should not do this part!
-    //       (just because website A has a hyperlink to website B
-    //        doesn't mean B also links to A)
-    // Create edge from destination node to source node
-    //newNode = createNode(src);
-    //newNode->next = graph->adjacencyList[dest];
-    //graph->adjacencyList[dest] = newNode;
 }
 
 void printGraph(Graph *graph)

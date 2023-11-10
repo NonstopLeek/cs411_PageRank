@@ -33,20 +33,21 @@ void handleInputFile(Graph *graph)
 
 int main(int argc, char *argv[])
 {
-    int k, d;
+    int walkLength;
+    double damping;
     char infile[64];
 
     if (argc < 2)
     {
-        printf("Error, incorrect parameters passed into program. Exiting.\n");
+        printf("Usage: pagerank {int walk length > 0} {double damping: [0.0, 1.0]}\n");
         exit(1);
     }
 
-    k = atoi(argv[1]);
+    walkLength = atoi(argv[1]);
 
     if (argc == 3)
     {
-        d = atoi(argv[2]);
+        damping = atof(argv[2]);
     }
 
     Graph *graph = createGraph(4039);
@@ -56,5 +57,5 @@ int main(int argc, char *argv[])
     printGraph(graph);
     printf("Graph Printed\n");
 
-
+    calculatePageRank(graph, walkLength, damping);
 }
