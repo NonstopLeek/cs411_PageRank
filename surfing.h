@@ -1,8 +1,10 @@
 #include "graph.h"
 
+#define PAGE_RANK_COUNT 5
+
 // TODO finish implementing serial version of this code then parallelize it
 
-void calculatePageRank(Graph* graph, int walkLength, double damping) {
+int* calculatePageRank(Graph* graph, int walkLength, double damping) {
     // damping: [0.0, 1.0]
     int vertexCount = graph->numVertices;
     int vertexVisits[vertexCount];
@@ -43,7 +45,27 @@ void calculatePageRank(Graph* graph, int walkLength, double damping) {
         }
     }
 
+    int* highestRankVertexIndices = (int *)malloc(sizeof(int) * PAGE_RANK_COUNT);
+    memset(highestRankVertexIndices, 0, PAGE_RANK_COUNT * sizeof(int));
+
     for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++) {
-        printf("Vertex %d visited %d\n", vertexIndex, vertexVisits[vertexIndex]);
+        int currentVertexIndex = vertexIndex;
+        int currentVertexVisits = vertexVisits[currentVertexIndex];
+        for (int vertexRank = 0; vertexRank < PAGE_RANK_COUNT; vertexRank++) {
+            int rankedVertexIndex = highestRankVertexIndices[vertexRank];
+            int rankedVertexVisits = vertexVisits[rankedVertexIndex];
+            if (currentVertexVisits > rankedVertexVisits) {
+                highestRankVertexIndices[vertexRank] = currentVertexIndex;
+                currentVertexIndex = rankedVertexIndex;
+                currentVertexVisits = rankedVertexVisits;
+            }
+        }
     }
+
+    //for(int i = 0; i < PAGE_RANK_COUNT; i++) {
+    //    printf("Rank %d: Vertex %d with visits = %d\n", (i + 1),
+    //        highestRankVertexIndices[i], vertexVisits[highestRankVertexIndices[i]]);
+    //}
+
+    return highestRankVertexIndices;
 }

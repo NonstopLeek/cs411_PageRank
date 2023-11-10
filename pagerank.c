@@ -57,5 +57,8 @@ int main(int argc, char *argv[])
     printGraph(graph);
     printf("Graph Printed\n");
 
-    calculatePageRank(graph, walkLength, damping);
+    int* highestPageRanks = calculatePageRank(graph, walkLength, damping);
+    for(int i = 0; i < PAGE_RANK_COUNT; i++) {
+        printf("Rank %d: Vertex %d\n", (i + 1), highestPageRanks[i]);
+    }
 }
