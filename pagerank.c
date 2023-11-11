@@ -33,22 +33,26 @@ void handleInputFile(Graph *graph)
 
 int main(int argc, char *argv[])
 {
-    int walkLength;
+    int walkLength, threads;
     double damping;
     char infile[64];
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Usage: pagerank {int walk length > 0} {double damping: [0.0, 1.0]}\n");
+        printf("Usage: pagerank {int walk length > 0} {double damping: [0.0, 1.0]} {int threads} \n");
         exit(1);
     }
 
-    walkLength = atoi(argv[1]);
-
-    if (argc == 3)
-    {
+    if (argc == 4)
+    {    
+        walkLength = atoi(argv[1]);
         damping = atof(argv[2]);
+        threads = atoi(argv[3]);
     }
+
+    assert(threads >= 1);
+
+    omp_set_num_threads(threads);
 
     Graph *graph = createGraph(4039);
     printf("Graph Created\n");

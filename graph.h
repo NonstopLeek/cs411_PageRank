@@ -64,7 +64,7 @@ void printGraph(Graph *graph)
                 printf(", ");
         }
         printf("]");
-        printf("\n");
+        // printf("\n");
     }
 }
 

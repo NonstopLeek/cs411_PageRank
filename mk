@@ -1,1 +1,1 @@
-gcc pagerank.c -o pagerank 
+gcc pagerank.c -o pagerank -fopenmp

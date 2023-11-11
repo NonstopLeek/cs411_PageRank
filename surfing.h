@@ -15,9 +15,10 @@ int* calculatePageRank(Graph* graph, int walkLength, double damping) {
         
         int currentVertexIndex = startingVertexIndex;
 
+        #pragma omp parallel for schedule(static) private(currentVertexIndex)
         for (int step = 0; step < walkLength; step++) {
             // TODO change to (omp_get_thread_num() + 1) * (startingVertexIndex + 1) * (step + 1)
-            uint seed = (startingVertexIndex + 1) * (step + 1);
+            uint seed = (omp_get_thread_num() + 1) * (startingVertexIndex + 1) * (step + 1);
             double coinFlip = (double)rand_r(&seed) / RAND_MAX;
             seed *= (step + 1);
 
@@ -30,9 +31,12 @@ int* calculatePageRank(Graph* graph, int walkLength, double damping) {
 
             if (coinFlip > damping && neighborCount > 0) {
                 int randomNeighborIndex = rand_r(&seed) % neighborCount;
+                // printf("RandomNeighbordIndex: %d\n", randomNeighborIndex);
                 neighbor = graph->adjacencyList[currentVertexIndex];
                 for (int i = 0; i < randomNeighborIndex; i++) {
                     neighbor = neighbor->next;
+                    // printf("neighbor->next: %d\n", neighbor->next->vertex);
+                    // if(neighbor->next == NULL) break;
                 }
                 currentVertexIndex = neighbor->vertex;
             }
@@ -61,6 +65,23 @@ int* calculatePageRank(Graph* graph, int walkLength, double damping) {
             }
         }
     }
+
+    //Idea here is to double check the top values and inspect their graph entries
+    // to see if they have many outgoing relationships.
+    // I noticed our results are 
+    // for (int i = 0; i < PAGE_RANK_COUNT; i++)
+    // {
+    //     printf("num: %d\n", highestRankVertexIndices[i]);
+    //     printf("Vertex %d neighbors\n", graph->adjacencyList[highestRankVertexIndices[i]]->vertex);
+    //     Node *temp = graph->adjacencyList[highestRankVertexIndices[i]];
+    //     while (temp)
+    //     {
+    //         printf("%d", temp->vertex);
+    //         temp = temp->next;
+    //         if (temp) printf(", ");
+    //     }
+    //     printf("\n");
+    // }
 
     //for(int i = 0; i < PAGE_RANK_COUNT; i++) {
     //    printf("Rank %d: Vertex %d with visits = %d\n", (i + 1),
