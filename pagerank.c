@@ -6,9 +6,9 @@ void handleInputFile(Graph *graph)
 
     FILE *infile;
     //infile = fopen("./input/facebook_combined.txt", "r"); // 4039 nodes
-    infile = fopen("./input/web-NotreDame_sorted.txt", "r"); // 325729 nodes
+    //infile = fopen("./input/web-NotreDame_sorted.txt", "r"); // 325729 nodes
     //infile = fopen("./input/web-BerkStan_sorted.txt", "r"); // 685231 nodes
-    //infile = fopen("./input/web-Google_sorted.txt", "r"); // 916427 nodes
+    infile = fopen("./input/web-Google_sorted.txt", "r"); // 916428 nodes
 
     if (!infile)
     {
@@ -58,9 +58,9 @@ int main(int argc, char *argv[])
     omp_set_num_threads(threads);
 
     //Graph *graph = createGraph(4039);
-    Graph *graph = createGraph(325729);
+    //Graph *graph = createGraph(325729);
     //Graph *graph = createGraph(685231);
-    //Graph *graph = createGraph(916427);
+    Graph *graph = createGraph(916428);
 
     //printf("Graph Created\n");
     handleInputFile(graph);
