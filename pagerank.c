@@ -28,7 +28,7 @@ void handleInputFile(Graph *graph)
         // if (count == 1) printf("\nsrc: %d     dest: %d\n", src, dest);
     }
     
-    printf("\nAt end, count: %ld\n", count);
+    //printf("\nAt end, count: %ld\n", count);
 }
 
 int main(int argc, char *argv[])
@@ -55,14 +55,18 @@ int main(int argc, char *argv[])
     omp_set_num_threads(threads);
 
     Graph *graph = createGraph(4039);
-    printf("Graph Created\n");
+    //printf("Graph Created\n");
     handleInputFile(graph);
-    printf("Input Handled\n");
-    printGraph(graph);
-    printf("Graph Printed\n");
+    //printf("Input Handled\n");
+    //printGraph(graph);
+    //printf("Graph Printed\n");
 
+    double time = omp_get_wtime();
     int* highestPageRanks = calculatePageRank(graph, walkLength, damping);
+    time = omp_get_wtime() - time;
+
     for(int i = 0; i < PAGE_RANK_COUNT; i++) {
         printf("Rank %d: Vertex %d\n", (i + 1), highestPageRanks[i]);
     }
+    printf("Page rank calculation time: %f seconds\n", time);
 }
