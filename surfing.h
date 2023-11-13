@@ -50,7 +50,7 @@ int* calculatePageRank(Graph* graph, int walkLength, double damping) {
     }
 
     int* highestRankVertexIndices = (int *)malloc(sizeof(int) * PAGE_RANK_COUNT);
-    memset(highestRankVertexIndices, 0, PAGE_RANK_COUNT * sizeof(int));
+    memset(highestRankVertexIndices, -1, PAGE_RANK_COUNT * sizeof(int));
 
     omp_lock_t rankLocks[PAGE_RANK_COUNT];
     for (int i = 0; i < PAGE_RANK_COUNT; i++)
@@ -63,7 +63,13 @@ int* calculatePageRank(Graph* graph, int walkLength, double damping) {
         for (int vertexRank = 0; vertexRank < PAGE_RANK_COUNT; vertexRank++) {
             omp_set_lock(&rankLocks[vertexRank]);
             int rankedVertexIndex = highestRankVertexIndices[vertexRank];
-            int rankedVertexVisits = vertexVisits[rankedVertexIndex];
+            int rankedVertexVisits;
+            if (rankedVertexIndex != -1) {
+                rankedVertexVisits = vertexVisits[rankedVertexIndex];
+            }
+            else {
+                rankedVertexVisits = 0;
+            }
             if (currentVertexVisits > rankedVertexVisits) {
                 highestRankVertexIndices[vertexRank] = currentVertexIndex;
                 currentVertexIndex = rankedVertexIndex;
